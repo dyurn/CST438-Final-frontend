@@ -1,29 +1,34 @@
+import React from 'react';
 import './App.css';
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
-import StudentHome from './components/StudentHome';
-import AdminHome from './components/AdminHome';
-import ShowSchedule from './components/ShowSchedule';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import BooleanQuestion from './pages/BooleanQuestion.js';
+import MCQGame from './pages/MCQGame';
+import AdminPage from './pages/AdminPage';
+import Logout from './pages/Logout';
 
 function App() {
   return (
-    <div className="App">
-      <h2>Registration Service</h2>
-        <BrowserRouter>
-          <div>
-            <Link to="/">Student</Link>{' '}
-            &nbsp;|&nbsp;&nbsp;
-            <Link to="/admin">Admin</Link>{' '}
-            <Switch>
-              <Route exact path="/" component={StudentHome} />
-              <Route path="/schedule" component={ShowSchedule} />
-              <Route path="/admin" component={AdminHome} />
-              <Route render={ () => <h1>Page not found</h1>} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li><Link to="/boolean-game">True/False Game</Link></li>
+            <li><Link to="/mcq-game">MCQ Game</Link></li>
+            <li><Link to="/admin">Admin Page</Link></li>
+            <li><Link to="/logout">Logout</Link></li>
+          </ul>
+        </nav>
+
+        {/* Définir les routes */}
+        <Switch>
+          <Route path="/boolean-game" component={BooleanQuestion} />
+          <Route path="/mcq-game" component={MCQGame} />
+          <Route path="/admin" component={AdminPage} />
+          <Route path="/logout" component={Logout} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
-
 
 export default App;
