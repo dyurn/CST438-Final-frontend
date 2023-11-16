@@ -1,0 +1,71 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.mcq-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #f4f4f4;
+}
+
+.mcq-game h2 {
+    color: #333;
+    text-align: center;
+}
+
+.mcq-game form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.mcq-game label {
+    display: block;
+    padding: 10px;
+    background: #e7e7e7;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.mcq-game input[type="radio"] {
+    display: none;
+}
+
+.mcq-game input[type="radio"]:checked + label {
+    background: #ade2f9;
+}
+
+.mcq-game button {
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.mcq-game button:hover {
+    background: #0056b3;
+}
+
+.feedback {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #28a745; /* Green for correct */
+}
+
+.feedback.incorrect {
+    color: #dc3545; /* Red for incorrect */
+}

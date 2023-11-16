@@ -1,82 +1,49 @@
-.App {
-  text-align: center;
-}
-
-.Center {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-body {
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  color: #220f5f;
-  font-family:  sans-serif;
+}
+
+nav {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  color: #ddd;
 }
 
 .container {
-  width: 100%;
-  max-width: 800px;
-  padding: 0 10px;
-  margin: 0 auto;
-  margin-top: 70px;
+  padding: 20px;
 }
 
-.title {
-  text-align: center;
-  font-size: 26px;
-  margin-bottom: 30px;
+h1 {
+  color: #333;
+  margin-bottom: 20px;
 }
 
-table {
-  border-collapse: collapse;
-}
-
-tr th {
-  font-size: 18px;
-  padding: 12px;
-  border: 1px solid #eeeeee;
-  text-align: left;
-  background-color: rgba(217, 221, 146, 0.2);
-}
-
-tr td {
-  border: 1px solid #eeeeee;
-  text-align: left;
-  padding:  10px;
-}
-
-input {
-  font-size: 16px;
-  background-color: transparent;
-  border: none;
-  width: 91%;
-  padding: 12px 12px;
-  font-family:  sans-serif;
-}
-
-input:focus {
-  outline: 1px solid #ccc;
-  border: 1px solid #ccc;
+.boolean-game, .mcq-game, .admin-page, .logout-page {
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
