@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import BooleanQuestion from './pages/BooleanQuestion.js';
+import BooleanQuestion2 from './pages/BooleanQuestion2.js';
 import MCQGame from './pages/MCQGame';
-import AdminPage from './pages/AdminPage';
+//import AdminPage from './pages/AdminPage';
+import { AdminPage } from './pages/AdminPage';
 import Logout from './pages/Logout';
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
 
         {/* Définir les routes */}
         <Switch>
-          <Route path="/boolean-game" component={BooleanQuestion} />
+          <Route path="/boolean-game" component={BooleanQuestion2} />
           <Route path="/mcq-game" component={MCQGame} />
           <Route path="/admin" component={AdminPage} />
           <Route path="/logout" component={Logout} />
