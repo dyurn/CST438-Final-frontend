@@ -3,13 +3,18 @@ import React, { useState, useEffect } from 'react';
 function AdminPage() {
     const [questions, setQuestions] = useState([]);
     const [editingQuestion, setEditingQuestion] = useState(null);
-
+    const token = sessionStorage.getItem("jwt");
+    
     useEffect(() => {
         fetchQuestions();
     }, []);
 
     function fetchQuestions() {
-        fetch('http://localhost:8080/questions/mcq')
+        fetch('http://localhost:8080/questions/mcq', {
+        headers: {
+            'Authorization': token
+        }
+    })
             .then(response => response.json())
             .then(data => setQuestions(data))
             .catch(error => console.error('Error fetching questions:', error));
@@ -21,7 +26,7 @@ function AdminPage() {
 
         fetch(url, {
             method: method,
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': token,},
             body: JSON.stringify(questionData)
         })
         .then(() => {
@@ -37,7 +42,10 @@ function AdminPage() {
 
     function handleDeleteQuestion(questionId) {
         fetch(`http://localhost:8080/questions/${questionId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': token
+            }
         })
         .then(() => fetchQuestions())
         .catch(error => console.error('Error:', error));
@@ -63,7 +71,13 @@ function AdminPage() {
                 <input name="option_b" defaultValue={initialFormState.option_b} placeholder="Option B" />
                 <input name="option_c" defaultValue={initialFormState.option_c} placeholder="Option C" />
                 <input name="option_d" defaultValue={initialFormState.option_d} placeholder="Option D" />
-                <input name="correct_answer" defaultValue={initialFormState.correct_answer} placeholder="Correct Answer" />
+                <select name="correct_answer" defaultValue={initialFormState.correct_answer}>
+                <option value="">Select Correct Answer</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
                 <button type="submit">{editingQuestion ? 'Update' : 'Add'} Question</button>
             </form>
         );
@@ -87,4 +101,4 @@ function AdminPage() {
 }
 
 //export default AdminPage;
-export { AdminPage };
+export {AdminPage} ;

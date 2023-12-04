@@ -7,10 +7,15 @@ function BooleanQuestion2() {
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
     const [isAnswered, setIsAnswered] = useState(false); // Nouvel état
+    const token = sessionStorage.getItem("jwt");
 
     // Charger les questions au lancement du jeu
     useEffect(() => {
-        fetch('http://localhost:8080/questions/boolean')
+        fetch('http://localhost:8080/questions/boolean', {
+      headers: {
+        'Authorization': token,  // Ajout de l'en-tête d'autorisation
+      },
+    })
             .then(response => response.json())
             .then(data => {
                 setQuestions(data);
