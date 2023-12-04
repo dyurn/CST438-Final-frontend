@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import he from 'he';
 import './BooleanQuestions.css';
 
 function BooleanQuestion2() {
@@ -6,24 +7,17 @@ function BooleanQuestion2() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
-    const [isAnswered, setIsAnswered] = useState(false); // Nouvel état
+    const [isAnswered, setIsAnswered] = useState(false);
+    const [lives, setLives] = useState(3); // Nombre de vies du joueur
     const token = sessionStorage.getItem("jwt");
 
-    // Charger les questions au lancement du jeu
     useEffect(() => {
         fetch('http://localhost:8080/questions/boolean', {
-      headers: {
-        'Authorization': token,  // Ajout de l'en-tête d'autorisation
-      },
-    })
-            .then(response => response.json())
-            .then(data => {
-                setQuestions(data);
-                setSelectedAnswer('');
-                setFeedback('');
-                setIsAnswered(false); // Réinitialisation de l'état
-            })
-            .catch(error => console.error('Error fetching questions:', error));
+            headers: { 'Authorization': token },
+        })
+        .then(response => response.json())
+        .then(data => setQuestions(data))
+        .catch(error => console.error('Error fetching questions:', error));
     }, []);
 
     const currentQuestion = questions[currentQuestionIndex] || {};
@@ -40,21 +34,34 @@ function BooleanQuestion2() {
 
         const isCorrect = currentQuestion.correct_answer.toLowerCase() === selectedAnswer.toLowerCase();
         setFeedback(isCorrect ? 'Correct!' : 'Incorrect');
-        setIsAnswered(true); // Marquer la question comme répondue
+        setIsAnswered(true);
+
+        if (isCorrect) {
+        } else {
+            if (lives > 0) {
+                setLives(lives - 1);
+                if (lives == 0){
+                    alert("GAME OVER!")
+                }
+            }
+        }
     }
 
     function handleNextQuestion() {
-        setCurrentQuestionIndex(prevIndex => (prevIndex + 1) % questions.length);
-        setSelectedAnswer('');
-        setFeedback('');
-        setIsAnswered(false); // Réinitialiser l'état pour la nouvelle question
+        if (lives > 0) {
+            setCurrentQuestionIndex(prevIndex => (prevIndex + 1) % questions.length);
+            setSelectedAnswer('');
+            setFeedback('');
+            setIsAnswered(false);
+        }
     }
 
     if (questions.length === 0) return <div>Loading questions...</div>;
 
     return (
         <div className="boolean-question">
-            <h2>{currentQuestion.question}</h2>
+            <h2>{he.decode(currentQuestion.question)}</h2>
+            
             <form>
                 <div>
                     <input type="radio" id="true" name="answer" value="True" onChange={handleOptionChange} checked={selectedAnswer === 'True'} disabled={isAnswered} />
@@ -64,10 +71,12 @@ function BooleanQuestion2() {
                     <input type="radio" id="false" name="answer" value="False" onChange={handleOptionChange} checked={selectedAnswer === 'False'} disabled={isAnswered} />
                     <label htmlFor="false">False</label>
                 </div>
-                <button type="button" onClick={handleSubmit} disabled={isAnswered}>Submit</button>
+                <button type="button" onClick={handleSubmit} disabled={isAnswered || lives <= 0}>Submit</button>
             </form>
             {feedback && <p>{feedback}</p>}
-            <button onClick={handleNextQuestion}>Next question</button>
+            <button onClick={handleNextQuestion} disabled={lives <= 0}>Next question</button>
+            <br></br>
+            <div>Lives: {lives}</div>
         </div>
     );
 }

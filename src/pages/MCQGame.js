@@ -74,7 +74,7 @@ function MCQGame() {
     }
 
     if (error) return <div>{error}</div>;
-    if (!currentQuestion) return <div>Loading question...</div>;
+    if (!currentQuestion) return <div>You must be login!</div>;
 
     return (
         <div className="mcq-game" key={currentQuestion ? currentQuestion.question_id : 'loading'}>

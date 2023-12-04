@@ -11,13 +11,16 @@ function App() {
   return (
     <Router>
       <div>
+        <header>
+          <h1>Trivia Game</h1>
+          
+        </header>
         <nav>
           <ul>
             <li><Link to="/boolean-game">True/False Game</Link></li>
             <li><Link to="/mcq-game">MCQ Game</Link></li>
             <li><Link to="/admin">Admin Page</Link></li>
             <li><Link to="/login">Login</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
           </ul>
         </nav>
 
@@ -26,7 +29,6 @@ function App() {
           <Route path="/boolean-game" component={BooleanQuestion2} />
           <Route path="/mcq-game" component={MCQGame} />
           <Route path="/admin" component={AdminPage} />
-          <Route path="/logout" component={Logout} />
           <Route path="/login" component={Login} />
         </Switch>
       </div>

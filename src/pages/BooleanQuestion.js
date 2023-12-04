@@ -1,69 +1,85 @@
-import React, { useState, useEffect } from 'react';
+//version avec les points 
 
-function BooleanQuestion() {
-    const [currentQuestion, setCurrentQuestion] = useState(null);
+import React, { useState, useEffect } from 'react';
+import he from 'he';
+import './BooleanQuestions.css';
+
+function BooleanQuestion2() {
+    const [questions, setQuestions] = useState([]);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
+    const [isAnswered, setIsAnswered] = useState(false);
+    const [score, setScore] = useState(0);
+    const [correctStreak, setCorrectStreak] = useState(0);
+    const token = sessionStorage.getItem("jwt");
 
     useEffect(() => {
-        fetchRandomBooleanQuestion();
+        fetch('http://localhost:8080/questions/boolean', {
+            headers: { 'Authorization': token },
+        })
+            .then(response => response.json())
+            .then(data => setQuestions(data))
+            .catch(error => console.error('Error fetching questions:', error));
     }, []);
 
-    function fetchRandomBooleanQuestion() {
-        fetch('http://localhost:8080/questions/boolean/random') // Remplacez par votre URL backend
-            .then(response => response.json())
-            .then(data => {
-                setCurrentQuestion(data);
-                setSelectedAnswer('');
-                setFeedback('');
-            })
-            .catch(error => console.error('Error fetching boolean question:', error));
-    }
-
-    function handleSubmit() {
-        if (!selectedAnswer) {
-            alert('Veuillez sélectionner une réponse.');
-            return;
-        }
-
-        // Envoyer la réponse pour vérification
-        fetch('http://localhost:8080/results/check/boolean', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                question: currentQuestion.question,
-                selectedAnswer: selectedAnswer
-            })
-        })
-        .then(response => response.text())
-        .then(data => setFeedback(data))
-        .catch(error => console.error('Error submitting boolean answer:', error));
-    }
+    const currentQuestion = questions[currentQuestionIndex] || {};
 
     function handleOptionChange(e) {
         setSelectedAnswer(e.target.value);
     }
 
-    if (!currentQuestion) return <div>Loading boolean question...</div>;
+    function handleSubmit() {
+        if (!selectedAnswer) {
+            alert('Select an answer');
+            return;
+        }
+
+        const isCorrect = currentQuestion.correct_answer.toLowerCase() === selectedAnswer.toLowerCase();
+        setFeedback(isCorrect ? 'Correct!' : 'Incorrect');
+        setIsAnswered(true);
+
+        // Mise à jour du score et de la série de bonnes réponses
+        if (isCorrect) {
+            const multiplier = correctStreak + 1; // Le multiplicateur augmente à chaque bonne réponse
+            setScore(score + 10 * multiplier);
+            setCorrectStreak(correctStreak + 1);
+        } else {
+            setScore(score - 10); // Perte de points sur une mauvaise réponse
+            setCorrectStreak(0); // Réinitialisation de la série de bonnes réponses
+        }
+    }
+
+    function handleNextQuestion() {
+        setCurrentQuestionIndex(prevIndex => (prevIndex + 1) % questions.length);
+        setSelectedAnswer('');
+        setFeedback('');
+        setIsAnswered(false);
+    }
+
+    if (questions.length === 0) return <div>You must be login!</div>;
 
     return (
-        <div className="boolean-game">
-            <h2>{currentQuestion.question}</h2>
+        <div className="boolean-question">
+            <h2>{he.decode(currentQuestion.question)}</h2>
+            
             <form>
                 <div>
-                    <input type="radio" id="true" name="answer" value="True" onChange={handleOptionChange} checked={selectedAnswer === 'True'} />
+                    <input type="radio" id="true" name="answer" value="True" onChange={handleOptionChange} checked={selectedAnswer === 'True'} disabled={isAnswered} />
                     <label htmlFor="true">True</label>
                 </div>
                 <div>
-                    <input type="radio" id="false" name="answer" value="False" onChange={handleOptionChange} checked={selectedAnswer === 'False'} />
+                    <input type="radio" id="false" name="answer" value="False" onChange={handleOptionChange} checked={selectedAnswer === 'False'} disabled={isAnswered} />
                     <label htmlFor="false">False</label>
                 </div>
-                <button type="button" onClick={handleSubmit}>Submit</button>
+                <button type="button" onClick={handleSubmit} disabled={isAnswered}>Submit</button>
             </form>
             {feedback && <p>{feedback}</p>}
-            <button onClick={fetchRandomBooleanQuestion}>Next question</button>
+            <button onClick={handleNextQuestion}>Next question</button>
+            <br></br>
+            <div>Score: {score}</div>
         </div>
     );
 }
 
-export default BooleanQuestion;
+export default BooleanQuestion2;
