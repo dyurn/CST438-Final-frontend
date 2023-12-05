@@ -1,0 +1,53 @@
+.boolean-question {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.boolean-question h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.boolean-question form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boolean-question label {
+    margin: 10px;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.boolean-question input[type="radio"] {
+    margin-right: 10px;
+}
+
+.boolean-question button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.boolean-question button:hover {
+    background-color: #0056b3;
+}
+
+.boolean-question p {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #28a745;
+}

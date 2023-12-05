@@ -1,5 +1,3 @@
-//version avec les points 
-
 import React, { useState, useEffect } from 'react';
 import he from 'he';
 import './BooleanQuestions.css';
@@ -10,17 +8,16 @@ function BooleanQuestion2() {
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
     const [isAnswered, setIsAnswered] = useState(false);
-    const [score, setScore] = useState(0);
-    const [correctStreak, setCorrectStreak] = useState(0);
+    const [lives, setLives] = useState(3); // Nombre de vies du joueur
     const token = sessionStorage.getItem("jwt");
 
     useEffect(() => {
         fetch('http://localhost:8080/questions/boolean', {
             headers: { 'Authorization': token },
         })
-            .then(response => response.json())
-            .then(data => setQuestions(data))
-            .catch(error => console.error('Error fetching questions:', error));
+        .then(response => response.json())
+        .then(data => setQuestions(data))
+        .catch(error => console.error('Error fetching questions:', error));
     }, []);
 
     const currentQuestion = questions[currentQuestionIndex] || {};
@@ -39,25 +36,27 @@ function BooleanQuestion2() {
         setFeedback(isCorrect ? 'Correct!' : 'Incorrect');
         setIsAnswered(true);
 
-        // Mise à jour du score et de la série de bonnes réponses
         if (isCorrect) {
-            const multiplier = correctStreak + 1; // Le multiplicateur augmente à chaque bonne réponse
-            setScore(score + 10 * multiplier);
-            setCorrectStreak(correctStreak + 1);
         } else {
-            setScore(score - 10); // Perte de points sur une mauvaise réponse
-            setCorrectStreak(0); // Réinitialisation de la série de bonnes réponses
+            if (lives > 0) {
+                setLives(lives - 1);
+                if (lives == 0){
+                    alert("GAME OVER!")
+                }
+            }
         }
     }
 
     function handleNextQuestion() {
-        setCurrentQuestionIndex(prevIndex => (prevIndex + 1) % questions.length);
-        setSelectedAnswer('');
-        setFeedback('');
-        setIsAnswered(false);
+        if (lives > 0) {
+            setCurrentQuestionIndex(prevIndex => (prevIndex + 1) % questions.length);
+            setSelectedAnswer('');
+            setFeedback('');
+            setIsAnswered(false);
+        }
     }
 
-    if (questions.length === 0) return <div>You must be login!</div>;
+    if (questions.length === 0) return <div>Loading questions...</div>;
 
     return (
         <div className="boolean-question">
@@ -72,12 +71,12 @@ function BooleanQuestion2() {
                     <input type="radio" id="false" name="answer" value="False" onChange={handleOptionChange} checked={selectedAnswer === 'False'} disabled={isAnswered} />
                     <label htmlFor="false">False</label>
                 </div>
-                <button type="button" onClick={handleSubmit} disabled={isAnswered}>Submit</button>
+                <button type="button" onClick={handleSubmit} disabled={isAnswered || lives <= 0}>Submit</button>
             </form>
             {feedback && <p>{feedback}</p>}
-            <button onClick={handleNextQuestion}>Next question</button>
+            <button onClick={handleNextQuestion} disabled={lives <= 0}>Next question</button>
             <br></br>
-            <div>Score: {score}</div>
+            <div>Lives: {lives}</div>
         </div>
     );
 }

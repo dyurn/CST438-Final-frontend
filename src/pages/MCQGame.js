@@ -6,6 +6,7 @@ function MCQGame() {
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
     const [error, setError] = useState(null);
+    const token = sessionStorage.getItem("jwt");
 
     // Récupérer une question aléatoire
     useEffect(() => {
@@ -13,7 +14,11 @@ function MCQGame() {
     }, []);
 
     function fetchRandomQuestion() {
-        fetch('http://localhost:8080/questions/mcq/random') // Remplacez par votre URL backend
+        fetch('http://localhost:8080/questions/mcq/random', {
+      headers: {
+        'Authorization': token,  // Ajout de l'en-tête d'autorisation
+      },
+    })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
@@ -42,7 +47,7 @@ function MCQGame() {
         // Envoyer la réponse pour vérification
         fetch('http://localhost:8080/results/check/mcq', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': token},
             body: JSON.stringify({
                 questionId: currentQuestion.question_id,
                 selectedAnswer: selectedAnswer
@@ -69,7 +74,7 @@ function MCQGame() {
     }
 
     if (error) return <div>{error}</div>;
-    if (!currentQuestion) return <div>Loading question...</div>;
+    if (!currentQuestion) return <div>You must be login!</div>;
 
     return (
         <div className="mcq-game" key={currentQuestion ? currentQuestion.question_id : 'loading'}>
