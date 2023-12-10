@@ -1,71 +1,96 @@
-body, html {
-    height: 100%;
-    margin: 0;
+.mcq-game {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    background-color: transparent;
     font-family: Arial, sans-serif;
 }
 
-.mcq-game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    background-color: #f4f4f4;
+.mcq-game::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
+    border: 10px solid rgb(64, 10, 107);
+    border-radius: 12px;
+    z-index: -1;
 }
 
 .mcq-game h2 {
-    color: #333;
-    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #ffffff;
 }
 
-.mcq-game form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-}
-
-.mcq-game label {
-    display: block;
-    padding: 10px;
-    background: #e7e7e7;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+.mcq-game div {
+    margin-bottom: 10px;
 }
 
 .mcq-game input[type="radio"] {
     display: none;
 }
 
-.mcq-game input[type="radio"]:checked + label {
-    background: #ade2f9;
+.mcq-game label {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    font-size: 2em;
+    color: #ffffff;
+}
+
+.mcq-game label:before {
+    content: '';
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #731384;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 3px;
+}
+
+.mcq-game input[type="radio"]:checked + label:before {
+    background-color: #731384;
+    border-color: #731384;
 }
 
 .mcq-game button {
-    padding: 10px 15px;
-    background: #007bff;
-    color: white;
+    padding: 10px 20px;
+    margin-top: 15px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-color: #731384;
+    color: white;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .mcq-game button:hover {
-    background: #0056b3;
+    background-color: rgb(255, 51, 0);
 }
 
-.feedback {
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #28a745; /* Green for correct */
+.mcq-game p {
+    font-weight: bold;
+    margin-top: 15px;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    color: #ffffff;
 }
 
-.feedback.incorrect {
-    color: #dc3545; /* Red for incorrect */
+.mcq-game .correct {
+    color: #27ae60;
+}
+
+.mcq-game .incorrect {
+    color: #c0392b;
 }

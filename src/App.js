@@ -17,9 +17,9 @@ function App() {
         </header>
         <nav>
           <ul>
-            <li><Link to="/boolean-game">True/False Game</Link></li>
-            <li><Link to="/mcq-game">MCQ Game</Link></li>
-            <li><Link to="/admin">Admin Page</Link></li>
+            <li><Link to="/boolean-game">Normal Game</Link></li>
+            <li><Link to="/mcq-game">Custom Game</Link></li>
+            <li><Link to="/admin">Make your own</Link></li>
             <li><Link to="/login">Login</Link></li>
           </ul>
         </nav>
