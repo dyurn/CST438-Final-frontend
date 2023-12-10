@@ -73,10 +73,14 @@ function BooleanQuestion2() {
                 </div>
                 <button type="button" onClick={handleSubmit} disabled={isAnswered || lives <= 0}>Submit</button>
             </form>
-            {feedback && <p>{feedback}</p>}
-            <button onClick={handleNextQuestion} disabled={lives <= 0}>Next question</button>
+            {feedback && <p className={feedback === 'Correct!' ? 'correct' : 'incorrect'}>{feedback}</p>}
+            <button onClick={handleNextQuestion} disabled={lives <= 0} className={`next-button ${lives <= 0 ? 'disabled' : ''}`}>Next question</button>
             <br></br>
-            <div>Lives: {lives}</div>
+            <br></br>
+            <div className="hearts">
+                {Array.from({ length: lives }, (_, index) => (<span key={index}>❤️</span>))}
+            </div>
+
         </div>
     );
 }

@@ -5,11 +5,14 @@
 }
 
 nav {
-  background-color: #333;
+  background-color: transparent;
   color: white;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
+  border: 2px solid rgb(0, 0, 0);
+  align-items: center; 
+  justify-content: center;
 }
 
 nav ul {
@@ -28,7 +31,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #ddd;
+  color: rgb(164, 15, 107);
 }
 
 .container {
@@ -36,14 +39,21 @@ nav ul li a:hover {
 }
 
 h1 {
-  color: #333;
+  color: #ffffff;
   margin-bottom: 20px;
+  font-family: 'Audiowide', sans-serif;
 }
 
-.boolean-game, .mcq-game, .admin-page, .logout-page {
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('https://i.pinimg.com/originals/2f/ba/e2/2fbae2ad170f1f14721c8e5b4bb0afb6.gif');
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  width: 100%; 
+  text-align: center; 
 }

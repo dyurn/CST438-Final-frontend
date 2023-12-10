@@ -16,7 +16,7 @@ function MCQGame() {
     function fetchRandomQuestion() {
         fetch('http://localhost:8080/questions/mcq/random', {
       headers: {
-        'Authorization': token,  // Ajout de l'en-tête d'autorisation
+        'Authorization': token,
       },
     })
             .then(response => {
@@ -42,7 +42,7 @@ function MCQGame() {
             return;
         }
     
-        console.log('Submitting answer:', selectedAnswer); // Pour le débogage
+        console.log('Submitting answer:', selectedAnswer);
     
         // Envoyer la réponse pour vérification
         fetch('http://localhost:8080/results/check/mcq', {
@@ -60,7 +60,7 @@ function MCQGame() {
             return response.text();
         })
         .then(data => {
-            console.log('Received data:', data); // Pour le débogage
+            console.log('Received data:', data);
             setFeedback(data);
         })
         .catch(error => {
@@ -74,7 +74,7 @@ function MCQGame() {
     }
 
     if (error) return <div>{error}</div>;
-    if (!currentQuestion) return <div>You must be login!</div>;
+    if (!currentQuestion) return <div>User must be log to play</div>;
 
     return (
         <div className="mcq-game" key={currentQuestion ? currentQuestion.question_id : 'loading'}>
@@ -98,7 +98,7 @@ function MCQGame() {
                 </div>
                 <button type="button" onClick={handleSubmit}>Submit</button>
             </form>
-            {feedback && <p>{feedback}</p>}
+            {feedback && <p className={feedback === 'Correct' ? 'correct' : 'incorrect'}>{feedback}</p>}
             <button onClick={fetchRandomQuestion}>Next question</button>
         </div>
     );
